@@ -46,7 +46,7 @@
   // create menu
   // menu element count - last element id
   // this value must be the same as the last menu element
-  #define _LCDML_DISP_cnt    12
+  #define _LCDML_DISP_cnt    8
 
   // LCDML_root        => layer 0
   // LCDML_root_X      => layer 1
@@ -56,19 +56,16 @@
 
   // LCDMenuLib_add(id, group, prev_layer_element, new_element_num, lang_char_array, callback_function)
   LCDML_DISP_init(_LCDML_DISP_cnt);
-  LCDML_DISP_add      (5  , _LCDML_G1  , LCDML_root        , 1  , "Program"            , LCDML_FUNC);
-  LCDML_DISP_add      (6  , _LCDML_G1  , LCDML_root_1      , 1  , "Program 1"          , LCDML_FUNC);
-  LCDML_DISP_add      (7  , _LCDML_G1  , LCDML_root_1_1    , 1  , "P1 start"           , LCDML_FUNC);
-  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_1_1    , 2  , "Settings"           , LCDML_FUNC);
-  LCDML_DISP_add      (9  , _LCDML_G1  , LCDML_root_1_1_2  , 1  , "Warm"               , LCDML_FUNC);
-  LCDML_DISP_add      (10 , _LCDML_G1  , LCDML_root_1_1_2  , 2  , "Long"               , LCDML_FUNC);
-  LCDML_DISP_add      (11 , _LCDML_G1  , LCDML_root_1      , 2  , "Program 2"          , LCDML_FUNC_p2);
-  LCDML_DISP_add      (0  , _LCDML_G1  , LCDML_root        , 2  , "Information"        , LCDML_FUNC_information);
-  LCDML_DISP_add      (1  , _LCDML_G1  , LCDML_root        , 3  , "Time info"          , LCDML_FUNC_timer_info);
-  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root        , 4  , "Settings"           , LCDML_FUNC);
-  LCDML_DISP_add      (3  , _LCDML_G1  , LCDML_root_3      , 1  , "Change value"       , LCDML_FUNC);
-  LCDML_DISP_add      (4  , _LCDML_G1  , LCDML_root_3      , 2  , "Something"          , LCDML_FUNC);
-  LCDML_DISP_add      (12 , _LCDML_G1  , LCDML_root        , 5  , "Last Point"         , LCDML_FUNC);
+  LCDML_DISP_add      (0  , _LCDML_G1  , LCDML_root      , 1  , "Programs"           , LCDML_FUNC);
+  LCDML_DISP_add      (1  , _LCDML_G1  , LCDML_root_1    , 1  , "Attacker"           , LCDML_FUNC);
+  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root_1_1  , 1  , "START"              , LCDML_FUNC);
+  LCDML_DISP_add      (3  , _LCDML_G1  , LCDML_root_1_1  , 2  , "Settings"           , LCDML_FUNC);
+  LCDML_DISP_add      (4  , _LCDML_G1  , LCDML_root_1    , 2  , "Defender"           , LCDML_FUNC);
+  LCDML_DISP_add      (5  , _LCDML_G1  , LCDML_root_1_2  , 1  , "START"              , LCDML_FUNC);
+  LCDML_DISP_add      (6  , _LCDML_G1  , LCDML_root_1_2  , 2  , "Settings"           , LCDML_FUNC);
+  LCDML_DISP_add      (7  , _LCDML_G1  , LCDML_root      , 2  , "Settings"           , LCDML_FUNC);
+  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_2    , 1  , "Change values"      , LCDML_FUNC);
+
   LCDML_DISP_createMenu(_LCDML_DISP_cnt);
 
 
@@ -131,4 +128,5 @@ void loop() {
 
     //Run menu
     LCDML_run(_LCDML_priority);
+    
   }
