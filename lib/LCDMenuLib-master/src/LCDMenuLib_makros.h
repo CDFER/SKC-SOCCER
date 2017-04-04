@@ -1,20 +1,20 @@
 // ********************************************************************
-//																		
-//						LCDMenuLib (LCDML)								
-//																		
-// ********************************************************************
 //
-// Autor:			Nils Feldkaemper				
-// Create:			03.02.2008											
-// Edit:			31.07.2016																				
+//						LCDMenuLib (LCDML)
 //
 // ********************************************************************
 //
-// error reporting: 									
-//	https://github.com/Jomelo/LCDMenuLib/issues							
+// Autor:			Nils Feldkaemper
+// Create:			03.02.2008
+// Edit:			31.07.2016
 //
-// forum thread:													
-// 	http://forum.arduino.cc/index.php?topic=73816.0						
+// ********************************************************************
+//
+// error reporting:
+//	https://github.com/Jomelo/LCDMenuLib/issues
+//
+// forum thread:
+// 	http://forum.arduino.cc/index.php?topic=73816.0
 //
 // ********************************************************************
 
@@ -45,9 +45,9 @@
 #	define LCDML_BUTTON_right()	LCDML.Button_udlr(_LCDML_button_right);	LCDML_DISP_update_menu()
 #	define LCDML_BUTTON_quit()	LCDML.Button_quit();					LCDML_DISP_update_menu()
 
-#	define LCDML_BUTTON_checkAny()		((LCDML.button > 0) ? true : false)		
-#	define LCDML_BUTTON_checkEnter()	bitRead(LCDML.button, _LCDML_button_enter)		
-#	define LCDML_BUTTON_checkUp()		bitRead(LCDML.button, _LCDML_button_up)		
+#	define LCDML_BUTTON_checkAny()		((LCDML.button > 0) ? true : false)
+#	define LCDML_BUTTON_checkEnter()	bitRead(LCDML.button, _LCDML_button_enter)
+#	define LCDML_BUTTON_checkUp()		bitRead(LCDML.button, _LCDML_button_up)
 #	define LCDML_BUTTON_checkDown()		bitRead(LCDML.button, _LCDML_button_down)
 #	define LCDML_BUTTON_checkLeft()		bitRead(LCDML.button, _LCDML_button_left)
 #	define LCDML_BUTTON_checkRight()	bitRead(LCDML.button, _LCDML_button_right)
@@ -95,11 +95,11 @@
 
 # 	define LCDML_DISP_triggerControl(time)\
 		LCDML_BACK_dynamic_setLoopTime(LCDML_BACKEND_control, time);\
-		LCDML_BACK_start(LCDML_BACKEND_control)			
+		LCDML_BACK_start(LCDML_BACKEND_control)
 
-		
-		
-		
+
+
+
 #	define LCDML_DISP_init(N)\
 		typedef void(* LCDML_FuncPtr)();\
 		LCDML_FuncPtr g_LCDML_DISP_functions_loop_setup[(N+1)];\
@@ -114,7 +114,7 @@
 		void LCDML_lcd_menu_display(); \
 		void LCDML_lcd_menu_clear();\
 		uint8_t g_lcdml_jump_func = _LCDML_NO_FUNC
-		
+
 
 #	define LCDML_DISP_initParam(N)\
 		uint8_t g_lcdml_param[(N + 1)]; \
@@ -125,16 +125,19 @@
 		void LCDML_FUNC_loop_setup(){}\
 		void LCDML_FUNC_loop(){}\
 		void LCDML_FUNC_loop_end(){}\
+		void LCDML_FUNC_Attacker_loop_setup(){}\
+		void LCDML_FUNC_Attacker_loop(){}\
+		void LCDML_FUNC_Attacker_loop_end(){}\
 		unsigned long g_LCDML_DISP_press_time = 0;\
 		unsigned long g_lcdml_initscreen = millis();\
 		LCDMenu LCDML_Item (0, true);\
 		void LCDML_lcd_menu_display(); \
 		void LCDML_lcd_menu_clear();\
 		uint8_t g_lcdml_jump_func = _LCDML_NO_FUNC
-		
-		
 
-			
+
+
+
 
 #	define LCDML_DISP_add(name, disp, item_parent, item_child, content, function)\
 		const char g_LCDML_DISP_lang_ ## name ##_var[] PROGMEM = {content};\
@@ -159,7 +162,7 @@
 		void function ## _loop_end(); \
 		LCDMenu item_parent ## _ ## item_child(name, disp); \
 		void LCDML_DISP_##name##_function() { g_LCDML_DISP_functions_loop_setup[name] = function##_loop_setup;  g_LCDML_DISP_functions_loop[name] = function##_loop; g_LCDML_DISP_functions_loop_end[name] = function##_loop_end; item_parent.addChild(item_parent ## _ ## item_child); }
-		
+
 
 #	define LCDML_DISP_addParam(name, disp, item_parent, item_child, content, function, para)\
 		const char g_LCDML_DISP_lang_ ## name ##_var[] PROGMEM = { content }; \
@@ -168,8 +171,8 @@
 		void function ## _loop_end(); \
 		LCDMenu item_parent ## _ ## item_child(name, disp); \
 		void LCDML_DISP_##name##_function() { g_LCDML_DISP_functions_loop_setup[name] = function##_loop_setup;  g_LCDML_DISP_functions_loop[name] = function##_loop; g_LCDML_DISP_functions_loop_end[name] = function##_loop_end; item_parent.addChild(item_parent ## _ ## item_child); g_lcdml_param[name] = para;  }
-		
-		
+
+
 
 #	define	LCDML_DISP_getParameter()\
 	g_lcdml_param[LCDML.getFunction()]
@@ -179,8 +182,8 @@
 		LCDML_DISP_initFunction(N); \
 		LCDML.display();\
 		LCDML_lcd_menu_display()
-		
-	
+
+
 #	define LCDML_DISP_initObjects()\
 		LCDMenuLib LCDML(LCDML_Item, g_LCDML_DISP_lang_table, _LCDML_DISP_rows, _LCDML_DISP_cols);
 
@@ -198,7 +201,7 @@
 			}\
 		}\
 		LCDML_BUTTON_resetAll()
-		
+
 #	define LCDML_DISP_createMenu(N)\
 		const char * const g_LCDML_DISP_lang_table[] PROGMEM = { LCDML_DISP_lang_repeat(N) }; LCDML_DISP_initObjects()
 
@@ -214,7 +217,7 @@
 		} else {\
 			check = false;\
 		}
-	
+
 /* ******************************************************************** */
 /* BACKEND																*/
 /* ******************************************************************** */
@@ -272,7 +275,7 @@
 
 
 //non thread id
-#	define     _LCDML_BACK_default_id				255		
+#	define     _LCDML_BACK_default_id				255
 
 
 //init for threads
@@ -303,7 +306,7 @@
 		unsigned long g_LCDML_BACK_timer[(cnt+1)];\
 		void LCDML_CONTROL_setup();\
 		void LCDML_CONTROL_loop()
-	// macro: loop function  
+	// macro: loop function
 #	define LCDML_run(mode)\
 		if (bitRead(LCDML.control, _LCDML_control_funcend)) {\
 			LCDML_BACK_reset(LCDML_BACKEND_menu); \
@@ -335,7 +338,7 @@
 #	define LCDML_BACK_new_timebased_static(id, init_time, status, name)\
 		LCDML_BACK_help_new_thread(id, name, status);\
 		LCDML_BACK_THREAD_FUNCTION_TIME_BASED(name, init_time);
-	// macro: create a new thread with dynamc times 
+	// macro: create a new thread with dynamc times
 #	define LCDML_BACK_new_timebased_dynamic(id, init_time, status, name)\
 		LCDML_BACK_help_new_thread(id, name, status);\
 		const PROGMEM uint32_t   _LCDML_BACK_time_default__##name  = (uint32_t)(init_time);\
@@ -344,7 +347,7 @@
 	// macro: create a event based thread
 #	define LCDML_BACK_new_eventbased(id, name)\
 		LCDML_BACK_help_new_thread(id, name, false);\
-		LCDML_BACK_THREAD_FUNCTION_EVENT_BASED(name);		
+		LCDML_BACK_THREAD_FUNCTION_EVENT_BASED(name);
 
 
 
@@ -355,7 +358,7 @@
 		bitWrite(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name / 7], g_LCDML_BACK_id__##name%7, true)
 	// macro: thread stop
 #	define LCDML_BACK_stop(name)\
-		bitWrite(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name / 7], g_LCDML_BACK_id__##name%7, false) 
+		bitWrite(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name / 7], g_LCDML_BACK_id__##name%7, false)
 	// macro: thread stop stable => calls a function at the end
 #	define LCDML_BACK_stopStable(name)\
 		LCDML_BACK_stop(name);\
@@ -364,7 +367,7 @@
 #	define LCDML_BACK_reset(name)\
 		bitWrite(g_LCDML_BACK_reset[g_LCDML_BACK_id__##name / 7], g_LCDML_BACK_id__##name%7, false); \
 		g_LCDML_BACK_timer[g_LCDML_BACK_id__##name] = 0
-	//macro: thread reStart 
+	//macro: thread reStart
 #	define LCDML_BACK_restart(name)\
 		LCDML_BACK_reset(name);\
 		LCDML_BACK_start(name)
@@ -394,7 +397,7 @@
 		for(uint8_t l_LCDML_BACK_i = 0; l_LCDML_BACK_i<g_LCDML_BACK_cnt;l_LCDML_BACK_i++) { \
 			bitWrite(g_LCDML_BACK_reset[l_LCDML_BACK_i/7], l_LCDML_BACK_i%7, false); \
 		}
-	//macro: thread reStart all 
+	//macro: thread reStart all
 #	define LCDML_BACK_all_restart()\
 		LCDML_BACK_all_reset();\
 		LCDML_BACK_all_start()
@@ -403,11 +406,11 @@
 //group
 	// macro: add group elements
 #	define LCDML_BACK_group(name)\
-		{g_LCDML_BACK_id__##name/7, g_LCDML_BACK_id__##name%7} 
+		{g_LCDML_BACK_id__##name/7, g_LCDML_BACK_id__##name%7}
 	// macro: create a new group
 #	define LCDML_BACK_group_init(name, thread_cnt)\
 		uint8_t g_LCDML_BACK_group__##name##_cnt = thread_cnt;\
-		uint8_t g_LCDML_BACK_group__##name[thread_cnt][2] = 
+		uint8_t g_LCDML_BACK_group__##name[thread_cnt][2] =
 	// macro: thread start group
 #	define LCDML_BACK_group_start(group_name)\
 		for(uint8_t l_LCDML_BACK_i = 0; l_LCDML_BACK_i<(g_LCDML_BACK_group__##group_name##_cnt);l_LCDML_BACK_i++) {\
@@ -427,20 +430,20 @@
 #	define LCDML_BACK_group_restart(group_name)\
 		LCDML_BACK_group_reset(group_name);\
 		LCDML_BACK_group_start(group_name)
-	
+
 
 
 //signals
 	// macro:
 #	define LCDML_BACK_signal(id, name)\
-		uint8_t  g_simpleSignal_id__##name  = id	
+		uint8_t  g_simpleSignal_id__##name  = id
 	// macro: creates the LCDML_BACK managemand variables
 #	define LCDML_BACK_signal_init(cnt)\
 		uint8_t g_simpleSignal_status[(cnt/7)+1]
 	// macro:
 #	define LCDML_BACK_signal_set(name)\
 		bitSet(g_simpleSignal_status[g_simpleSignal_id__##name/7], g_simpleSignal_id__##name%7)
-	// macro:	
+	// macro:
 #	define LCDML_BACK_signal_get(name)\
 		bitRead(g_simpleSignal_status[g_simpleSignal_id__##name/7], g_simpleSignal_id__##name%7)
 	// macro:
@@ -449,18 +452,18 @@
 
 
 //is run
-	//macro: thread is running ? 
+	//macro: thread is running ?
 #	define LCDML_BACK_isRun(name)\
 		bitRead(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name/7], g_LCDML_BACK_id__##name%7)
-	
-	
-// dynamic times	
+
+
+// dynamic times
 	//macro: edit thread loop time
 #	define LCDML_BACK_dynamic_setLoopTime(name, time)\
 		g_LCDML_BACK_dynTime_##name = time
 	//macro: get thread loop time
 #	define LCDML_BACK_dynamic_getLoopTime(name)\
-		g_LCDML_BACK_dynTime_##name	
+		g_LCDML_BACK_dynTime_##name
 	// macro: reset a dynamic thread to default settings
 #	define LCDML_BACK_dynamic_setDefaultTime(name)\
 		g_LCDML_BACK_dynTime_##name =_LCDML_BACK_time_default__##name
@@ -485,8 +488,8 @@
 		LCDML_BACK_setup_##name()
 	// macro: call a thread stable function
 #	define LCDML_BACK_call_stable(name)\
-		LCDML_BACK_stable_##name()	
-	
+		LCDML_BACK_stable_##name()
+
 
 
 //help macros
@@ -496,7 +499,7 @@
 		timer_var = millis();
 	//macro: thread is running with return !
 #	define LCDML_BACK_THREAD_isRun(name)\
-	if(!bitRead(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name/7], g_LCDML_BACK_id__##name%7)) { return; } 
+	if(!bitRead(g_LCDML_BACK_start_stop[g_LCDML_BACK_id__##name/7], g_LCDML_BACK_id__##name%7)) { return; }
 
 	//macro: reset the reset bin from a thread
 #	define LCDML_BACK_UNSET_reset(name)\
@@ -506,7 +509,7 @@
 #	define LCDML_BACK_GET_reset(name)\
 		bitRead(g_LCDML_BACK_reset[g_LCDML_BACK_id__##name/7], g_LCDML_BACK_id__##name%7)
 
-	//macro: create the thread setup function 
+	//macro: create the thread setup function
 #	define LCDML_BACK_THREAD_FUNCTION_TIME_BASED(name, time)\
 		void LCDML_BACK_function_##name(void)\
 		{\
@@ -519,7 +522,7 @@
 			g_LCDML_BACK_loop_status = (LCDML_BACK_loop_##name()) ? true : false;\
 		}
 
-	//macro: create the thread setup function 
+	//macro: create the thread setup function
 #	define LCDML_BACK_THREAD_FUNCTION_EVENT_BASED(name)\
 		void LCDML_BACK_function_##name(void)\
 		{\
@@ -550,7 +553,6 @@
 
 
 
-	
 
 
 
@@ -564,7 +566,8 @@
 
 
 
-	
+
+
 
 
 
@@ -825,11 +828,11 @@
 #	define LCDML_BACK_help_setup_repeat_4() LCDML_BACK_help_setup_repeat_3() LCDML_BACK_help_setup(4)
 #	define LCDML_BACK_help_setup_repeat_3() LCDML_BACK_help_setup_repeat_2() LCDML_BACK_help_setup(3)
 #	define LCDML_BACK_help_setup_repeat_2() LCDML_BACK_help_setup_repeat_1() LCDML_BACK_help_setup(2)
-#	define LCDML_BACK_help_setup_repeat_1() LCDML_BACK_help_setup_repeat_0() LCDML_BACK_help_setup(1) 
-#	define LCDML_BACK_help_setup_repeat_0() LCDML_BACK_help_setup(0) 
+#	define LCDML_BACK_help_setup_repeat_1() LCDML_BACK_help_setup_repeat_0() LCDML_BACK_help_setup(1)
+#	define LCDML_BACK_help_setup_repeat_0() LCDML_BACK_help_setup(0)
 #	define LCDML_BACK_help_setupInit(N)	 LCDML_BACK_help_setup_repeat_##N()
 
-	
+
 
 
 
@@ -1094,8 +1097,8 @@
 #	define LCDML_DISP_lang_repeat_4()   LCDML_DISP_lang_repeat_3()   LCDML_DISP_lang(4),
 #	define LCDML_DISP_lang_repeat_3()   LCDML_DISP_lang_repeat_2()   LCDML_DISP_lang(3),
 #	define LCDML_DISP_lang_repeat_2()   LCDML_DISP_lang_repeat_1()   LCDML_DISP_lang(2),
-#	define LCDML_DISP_lang_repeat_1()   LCDML_DISP_lang_repeat_0()   LCDML_DISP_lang(1), 
-#	define LCDML_DISP_lang_repeat_0()   LCDML_DISP_lang(0), 
+#	define LCDML_DISP_lang_repeat_1()   LCDML_DISP_lang_repeat_0()   LCDML_DISP_lang(1),
+#	define LCDML_DISP_lang_repeat_0()   LCDML_DISP_lang(0),
 #	define LCDML_DISP_lang_repeat(N)	 LCDML_DISP_lang_repeat_##N ()
 
 
@@ -1361,6 +1364,3 @@
 #	define LCDML_DISP_func_repeat(N) LCDML_DISP_func_repeat_ ## N ()
 
 #endif
-
-
-

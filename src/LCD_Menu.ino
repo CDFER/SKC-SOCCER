@@ -17,7 +17,7 @@
   #define _LCDML_DISP_cfg_button_press_time          200    // button press time in ms
   #define _LCDML_DISP_cfg_scrollbar                  1      // enable a scrollbar
   #define _LCDML_DISP_cfg_cursor                     0x7E   // cursor Symbol
-
+  #define _lCDML_FUNC_Attacker
 // *********************************************************************
 // LCDML TYPE SELECT
 // *********************************************************************
@@ -58,7 +58,7 @@
   LCDML_DISP_init(_LCDML_DISP_cnt);
   LCDML_DISP_add      (0  , _LCDML_G1  , LCDML_root      , 1  , "Programs"           , LCDML_FUNC);
   LCDML_DISP_add      (1  , _LCDML_G1  , LCDML_root_1    , 1  , "Attacker"           , LCDML_FUNC);
-  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root_1_1  , 1  , "START"              , LCDML_FUNC);
+  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root_1_1  , 1  , "START"              , LCDML_FUNC_Attacker);
   LCDML_DISP_add      (3  , _LCDML_G1  , LCDML_root_1_1  , 2  , "Settings"           , LCDML_FUNC);
   LCDML_DISP_add      (4  , _LCDML_G1  , LCDML_root_1    , 2  , "Defender"           , LCDML_FUNC);
   LCDML_DISP_add      (5  , _LCDML_G1  , LCDML_root_1_2  , 1  , "START"              , LCDML_FUNC);
@@ -128,5 +128,5 @@ void loop() {
 
     //Run menu
     LCDML_run(_LCDML_priority);
-    
+
   }
