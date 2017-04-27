@@ -15,7 +15,7 @@
 // (4) Control with Keypad
 // *********************************************************************
 
-#define _LCDML_CONTROL_cfg      1  // serial
+#define _LCDML_CONTROL_cfg      1
 
 //#define _LCDML_CONTROL_cfg    1  // analog
 //#define _LCDML_CONTROL_cfg    2  // digital
@@ -102,12 +102,12 @@ void LCDML_CONTROL_loop()
 // *********************************************************************
 #elif(_LCDML_CONTROL_cfg == 1)
 // settings
-  #define _LCDML_CONTROL_analog_pin              0
+  #define _LCDML_CONTROL_analog_pin              8
   // when you did not use a button set the value to zero
-  #define _LCDML_CONTROL_analog_enter_min        600     // Button Enter
-  #define _LCDML_CONTROL_analog_enter_max        700
-  #define _LCDML_CONTROL_analog_up_min           200     // Button Up
-  #define _LCDML_CONTROL_analog_up_max           300
+  #define _LCDML_CONTROL_analog_enter_min        650     // Button Enter
+  #define _LCDML_CONTROL_analog_enter_max        750
+  #define _LCDML_CONTROL_analog_up_min           150     // Button Up
+  #define _LCDML_CONTROL_analog_up_max           350
   #define _LCDML_CONTROL_analog_down_min         100     // Button Down
   #define _LCDML_CONTROL_analog_down_max         200
   #define _LCDML_CONTROL_analog_back_min         1000     // Button Back

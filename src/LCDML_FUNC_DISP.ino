@@ -5,6 +5,10 @@
 #include <AFMotor.h>
 #include <NewPing.h>
 #include <Adafruit_TCS34725.h>
+AF_DCMotor motor1(2); // create motor #2, 64KHz pwm
+AF_DCMotor motor2(1); // create motor #2, 64KHz pwm
+AF_DCMotor motor3(3); // create motor #2, 64KHz pwm
+
 /* ===================================================================== *
  *                                                                       *
  * DISPLAY SYSTEM                                                        *
@@ -48,10 +52,7 @@
  * ===================================================================== *
  */
 
- #define TRIGGER_PIN  12  // Arduino pin tied to trigger pin on the ultrasonic sensor.
- #define ECHO_PIN     11  // Arduino pin tied to echo pin on the ultrasonic sensor.
- #define MAX_DISTANCE 200 // Maximum distance we want to ping for (in centimeters)
- Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_700MS, TCS34725_GAIN_1X);
+
 // *********************************************************************
 void LCDML_DISP_setup(LCDML_FUNC_information)
 // *********************************************************************
@@ -182,104 +183,92 @@ void LCDML_DISP_setup(LCDML_FUNC_Attacker){
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
   int irang;
-  int ir1;
   int ircon;
-  int ir2;
   float m1;
   float m2;
   float m3;
-  AF_DCMotor motor1(1, MOTOR12_64KHZ);
-  AF_DCMotor motor2(2, MOTOR12_64KHZ);
-  AF_DCMotor motor3(3, MOTOR12_64KHZ);
-  NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
-  uint16_t r, g, b, c, colorTemp, lux;
-  sonar.ping_cm() == 0;
+  int mt1;
+  int mt2;
+  int mt3;
+  int lgred;
+  int lggreen;
+  int lgblue;
+  int mgred;
+  int mggreen;
+  int mgblue;
+  int dgred;
+  int dggreen;
+  int dgblue;
+  int bred;
+  int bgreen;
+  int bblue;
+  int angle;
 
-  tcs.getRawData(&r, &g, &b, &c);
-  colorTemp = tcs.calculateColorTemperature(r, g, b);
-  lux = tcs.calculateLux(r, g, b);
-
-irang = 60;
-if (sonar.ping_cm() < 4.2)
-{
-
-}
-
-else
-{
-
-  motor1.run(FORWARD);
-  motor2.run(FORWARD);
-  motor3.run(FORWARD);
+//setup values________________________________________________________________
+lgred = 1;
+lggreen = 1;
+lgblue = 1;
+mgred = 1;
+mggreen = 1;
+mgblue = 1;
+dgred = 1;
+dggreen = 1;
+dgblue = 1;
+bred = 1;
+bgreen = 1;
+bblue = 1;
+//____________________________________________________________________________
 
 
 
-    //
-        switch (ir1) {
-        case 2:
-        irang = 270;
-          break;
-        case 3:
-        irang = 300;
-          break;
-        case 4 :
-        irang = 330;
-          break;
-          case 5:
-        ircon = 0;
-            break;
-          case 6:
-        irang = 30;
-            break;
-          case 7:
-        irang = 60;
-            break;
-          case 8:
-        irang = 90;
-            break;
-          case 0:
-               ircon = 3;
-            break;
-      }
+ircon = 3;
+irang = 90;
 
-       switch (ir2) {
-       case 2:
-        irang = 90;
-         break;
-       case 3:
-        irang = 120;
-         break;
-       case 4 :
-        irang = 150;
-         break;
-       case 5:
-        irang = 180;
-          break;
-       case 6:
-        irang = 210;
-          break;
-       case 7:
-        irang = 240;
-          break;
-       case 8:
-        irang = 270;
-          break;
-       case 0:
-              ircon = 3;
-          break;
-    }
 
+switch (ircon) {
+    case 1:
+      irang - 10;
+      break;
+    case 2:
+      irang + 10;
+      break;
+    case 3:
+      irang;
+      break;
+  }
 
   m1 =  255*cos((30-irang)*0.0174533);
   m2 =  255*cos((270-irang)*0.0174533);
   m3 =  255*cos((150-irang)*0.0174533);
 
+
+
+
+
+
+
+  motor1.run(FORWARD);
+  motor2.run(FORWARD);
+  motor3.run(FORWARD);
+
+  if(m1 <0){
+  motor1.run(BACKWARD);
+  m1 = m1 * -1;
+  }
+
+  if(m2 <0){
+  motor2.run(BACKWARD);
+  m2 = m2 * -1;
+  }
+
+  if(m3 <0){
+  motor3.run(BACKWARD);
+  m3 = m3 * -1;
+  }
+
   motor1.setSpeed(m1);
   motor2.setSpeed(m2);
   motor3.setSpeed(m3);
-
-
-}
 
 
 }
