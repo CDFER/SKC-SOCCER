@@ -182,6 +182,7 @@ void LCDML_DISP_setup(LCDML_FUNC_Attacker){
 
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
+  int ball;
   int irang;
   int ircon;
   float m1;
@@ -204,6 +205,7 @@ void LCDML_DISP_loop(LCDML_FUNC_Attacker){
   int bblue;
   int angle;
 
+
 //setup values________________________________________________________________
 lgred = 1;
 lggreen = 1;
@@ -219,10 +221,115 @@ bgreen = 1;
 bblue = 1;
 //____________________________________________________________________________
 
-
+switch (ball) {
+    case 1110000:
+      irang = 60;
+      ircon = 2;
+      break;
+    case 1100001:
+      irang = 30;
+      irang = 370;
+      break;
+    case 1100000:
+      ircon = 30;
+      irang = 370;
+      break;
+   case 1000110:
+      irang = 300;
+      irang = 370;
+      break;
+    case 1000011:
+      irang = 330;
+      ircon = 0;
+      break;
+    case 1000010:
+      irang = 330;
+      ircon = 0;
+      break;
+    case 1000001:
+      irang = 0;
+      ircon = 0;
+      ball = 1;
+      break;
+    case 1000000:
+      irang = 0;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0111000:
+      irang = 120;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0110000:
+      irang = 90;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0100000:
+      irang = 60;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0011100:
+      irang = 180;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0011000:
+      irang = 150;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0010000:
+      irang = 120;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0001110:
+      irang = 240;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0001100:
+      irang = 210;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0001000:
+      irang = 180;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0000110:
+      irang = 270;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0000100:
+      irang = 240;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0000010:
+      irang = 300;
+      ircon = 0;
+      ball = 0;
+      break;
+    case 0000001:
+      irang = 0;
+      ircon = 0;
+      ball = 1;
+      break;
+    default:
+    ircon = 4; // ir config error
+    irang = 370; // ir angle set error
+    ball = 0;
+     break;
+  }
 
 ircon = 3;
-irang = 90;
+irang = 10;
 
 
 switch (ircon) {
@@ -242,10 +349,9 @@ switch (ircon) {
   m3 =  255*cos((150-irang)*0.0174533);
 
 
-
-
-
-
+  motor1.setSpeed(m1);
+  motor2.setSpeed(m2);
+  motor3.setSpeed(m3);
 
   motor1.run(FORWARD);
   motor2.run(FORWARD);
@@ -266,9 +372,7 @@ switch (ircon) {
   m3 = m3 * -1;
   }
 
-  motor1.setSpeed(m1);
-  motor2.setSpeed(m2);
-  motor3.setSpeed(m3);
+
 
 
 }
