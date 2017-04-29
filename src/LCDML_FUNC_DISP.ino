@@ -182,31 +182,27 @@ void LCDML_DISP_setup(LCDML_FUNC_Attacker){
 
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
-  int ball;
-  int irang;
-  int ircon;
-  float m1;
-  float m2;
-  float m3;
-  int mt1;
-  int mt2;
-  int mt3;
-  int lgred;
-  int lggreen;
-  int lgblue;
-  int mgred;
-  int mggreen;
-  int mgblue;
-  int dgred;
-  int dggreen;
-  int dgblue;
-  int bred;
-  int bgreen;
-  int bblue;
-  int angle;
+  int ball; // if the ball is in capture zone 1 = possitive 2 = negitive
+  int irang; // the angle the ball is at
+  int ircon; // what side the ball is on or if there is a problime
+  float m1; // motor 1 speed
+  float m2; // motor 2 Speed
+  float m3; // motor 3 Speed
+  int lgred; // light green side on mat red from rgb
+  int lggreen; // light green side on mat green from rgb
+  int lgblue; // light green side on mat blue from rgb
+  int mgred;  // mid green side on mat red from rgb
+  int mggreen; // mid green side on mat green from rgb
+  int mgblue;  // mid green side on mat blue from rgb
+  int dgred;  // dark green side on mat red from rgb
+  int dggreen; // dark green side on mat green from rgb
+  int dgblue;  // dark green side on mat blue from rgb
+  int bred;  // black side on mat red from rgb
+  int bgreen; // black side on mat green from rgb
+  int bblue;  // black side on mat red from rgb
 
 
-//setup values________________________________________________________________
+//setup values for on the day setup__________________________________________________________
 lgred = 1;
 lggreen = 1;
 lgblue = 1;
@@ -225,100 +221,106 @@ switch (ball) {
     case 1110000:
       irang = 60;
       ircon = 2;
+      ball = 0;
       break;
     case 1100001:
       irang = 30;
-      irang = 370;
+      ircon = 2;
+      ball = 0;
       break;
     case 1100000:
-      ircon = 30;
-      irang = 370;
+      irang = 30;
+      ircon = 2;
+      ball = 0;
       break;
    case 1000110:
       irang = 300;
-      irang = 370;
+      ircon = 1;
+      ball = 0;
       break;
     case 1000011:
       irang = 330;
-      ircon = 0;
+      ircon = 1;
+      ball = 0;
       break;
     case 1000010:
       irang = 330;
       ircon = 0;
+      ball = 0;
       break;
     case 1000001:
       irang = 0;
-      ircon = 0;
+      ircon = 3;
       ball = 1;
       break;
     case 1000000:
       irang = 0;
-      ircon = 0;
+      ircon = 3;
       ball = 0;
       break;
     case 0111000:
       irang = 120;
-      ircon = 0;
+      ircon = 2;
       ball = 0;
       break;
     case 0110000:
       irang = 90;
-      ircon = 0;
+      ircon = 2;
       ball = 0;
       break;
     case 0100000:
       irang = 60;
-      ircon = 0;
+      ircon = 2;
       ball = 0;
       break;
     case 0011100:
       irang = 180;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0011000:
       irang = 150;
-      ircon = 0;
+      ircon = 2;
       ball = 0;
       break;
     case 0010000:
       irang = 120;
-      ircon = 0;
+      ircon = 2;
       ball = 0;
       break;
     case 0001110:
       irang = 240;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0001100:
       irang = 210;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0001000:
       irang = 180;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0000110:
       irang = 270;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0000100:
       irang = 240;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0000010:
       irang = 300;
-      ircon = 0;
+      ircon = 1;
       ball = 0;
       break;
     case 0000001:
       irang = 0;
-      ircon = 0;
+      ircon = 3;
       ball = 1;
       break;
     default:
@@ -328,8 +330,7 @@ switch (ball) {
      break;
   }
 
-ircon = 3;
-irang = 10;
+
 
 
 switch (ircon) {
@@ -341,6 +342,9 @@ switch (ircon) {
       break;
     case 3:
       irang;
+      break;
+    case 4:
+      lcd.print("error");
       break;
   }
 
