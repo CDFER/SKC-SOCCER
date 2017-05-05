@@ -5,17 +5,15 @@
 #include <AFMotor.h>
 #include <NewPing.h>
 #include <Adafruit_TCS34725.h>
-AF_DCMotor motor1(1); // create motor #2, 64KHz pwm
-AF_DCMotor motor2(2); // create motor #2, 64KHz pwm
-AF_DCMotor motor3(3); // create motor #2, 64KHz pwm
-//------------------------------------------------------------------------------
+AF_DCMotor motor1(3); // create motor #2, 64KHz pwm
+AF_DCMotor motor2(1); // create motor #2, 64KHz pwm
+AF_DCMotor motor3(2); // create motor #2, 64KHz pwm
 #define IR_INT_PIN 2
 #define SOCCER_BALL_TIMEOUT 500 //0.5 second
 #define IR_read
 volatile char IR_port;    //Create a variable to store the data read from PORT
 unsigned long IRTime = -SOCCER_BALL_TIMEOUT;
 char prevIR_port = 0b11111111;//start with all IR off
-//------------------------------------------------------------------------------
 /* ===================================================================== *
  *                                                                       *
  * DISPLAY SYSTEM                                                        *
@@ -185,10 +183,15 @@ void LCDML_DISP_loop_end(LCDML_FUNC_p2)
 }
 //________________________________________________________________________________
 void LCDML_DISP_setup(LCDML_FUNC_Attacker){
+
   pinMode(IR_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
+    attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
     DDRA = 0b00000000;    //All pins in PORTA are inputs  http://archive.monome.org/community/uploads/2012/02/Mega%20Port%20Diagram.png (154kB)
-    Serial.begin(9600);
+
+
+   Serial.begin(9600);
+    
+
 
    //set port A to pull up all pins
     pinMode(22, INPUT_PULLUP);
@@ -200,8 +203,8 @@ void LCDML_DISP_setup(LCDML_FUNC_Attacker){
     pinMode(28, INPUT_PULLUP);
     pinMode(29, INPUT_PULLUP);
 
-
-
+   //set LED pin to output (pin 13)
+    pinMode(13, OUTPUT);
 
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
@@ -239,191 +242,188 @@ bred = 1;
 bgreen = 1;
 bblue = 1;
 //ir_________________________________________________________________________
-//delay(1000);
-//Serial.println(IR_port,BIN);
-//Serial.println(IRTime);
+  //delay(1000);
+  //Serial.println(IR_port,BIN);
+  //Serial.println(IRTime);
 
-//checking if we have seen the soccer ball in the last second
-if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
+ //checking if we have seen the soccer ball in the last second
+  if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
 
- digitalWrite(13, HIGH);//LED on
+   digitalWrite(13, HIGH);//LED on
 
- if(IR_port != prevIR_port){//only print when value has changed
-    Serial.println(~IR_port,BIN);
-    prevIR_port = IR_port;
-    Serial.println(IRTime);
-  }
-
-}else{//Hvaen't seen ball for SOCCER_BALL_TIMEOUT
-   digitalWrite(13, LOW);//LED off
-   prevIR_port = 0b11111111;//all IR sensors are off
-}//END if()
-
-  //________________________________________________________________________________
-  switch (ircon) {
-      case 1:
-        irang - 10;
-        break;
-      case 2:
-        irang + 10;
-        break;
-      case 3:
-        irang
-        ;
-        break;
-      case 4:
-        lcd.print("error");
-        break;
+   if(IR_port != prevIR_port){//only print when value has changed
+      Serial.println(~IR_port,BIN);
+      prevIR_port = IR_port;
+      Serial.println(IRTime);
     }
 
-//---------------------------------------------------------------------------
+  }else{//Hvaen't seen ball for SOCCER_BALL_TIMEOUT
+     digitalWrite(13, LOW);//LED off
+     prevIR_port = 0b11111111;//all IR sensors are off
+  }//END if()
+
+  //________________________________________________________________________________
+
+
+
 switch (ball) {
-    case 0b0001111:
+    case 1110000:
       irang = 60;
       ircon = 2;
       ball = 0;
       break;
-    case 0b0011110:
+    case 1100001:
       irang = 30;
       ircon = 2;
       ball = 0;
       break;
-    case 0b0011111:
+    case 1100000:
       irang = 30;
       ircon = 2;
       ball = 0;
       break;
-   case 0b0111001:
+   case 1000110:
       irang = 300;
       ircon = 1;
       ball = 0;
       break;
-    case 0b0111100:
+    case 1000011:
       irang = 330;
       ircon = 1;
       ball = 0;
       break;
-    case 0b0111101:
+    case 1000010:
       irang = 330;
       ircon = 0;
       ball = 0;
       break;
-    case 0b0111110:
+    case 1000001:
       irang = 0;
       ircon = 3;
       ball = 1;
       break;
-    case 0b0111111:
+    case 1000000:
       irang = 0;
       ircon = 3;
       ball = 0;
       break;
-    case 0b1000111:
+    case 0111000:
       irang = 120;
       ircon = 2;
       ball = 0;
       break;
-    case 0b1001111:
+    case 0110000:
       irang = 90;
       ircon = 2;
       ball = 0;
       break;
-    case 0b1011111:
+    case 0100000:
       irang = 60;
       ircon = 2;
       ball = 0;
       break;
-    case 0b1100011:
+    case 0011100:
       irang = 180;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1100111:
+    case 0011000:
       irang = 150;
       ircon = 2;
       ball = 0;
       break;
-    case 0b1101111:
+    case 0010000:
       irang = 120;
       ircon = 2;
       ball = 0;
       break;
-    case 0b1110001:
+    case 0001110:
       irang = 240;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1110011:
+    case 0001100:
       irang = 210;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1110111:
+    case 0001000:
       irang = 180;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1111001:
+    case 0000110:
       irang = 270;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1111011:
+    case 0000100:
       irang = 240;
       ircon = 1;
       ball = 0;
       break;
-    case 0b1111101:
-
+    case 0000010:
       irang = 300;
       ircon = 1;
-      ball = 0;;
+      ball = 0;
       break;
-    case 0b1111110:
+    case 0000001:
       irang = 0;
       ircon = 3;
       ball = 1;
       break;
     default:
-     ircon = 4; // ir config error
-      break;
-
-
+    ircon = 4; // ir config error
+    irang = 370; // ir angle set error
+    ball = 0;
+     break;
   }
 
 
 
+switch (ircon) {
+    case 1:
+      irang - 10;
+      break;
+    case 2:
+      irang + 10;
+      break;
+    case 3:
+      irang;
+      break;
+    case 4:
+      lcd.print("error");
+      break;
+  }
 
-
-
-irang = 0;
+irang = 90;
 
 
         //MOTOR 1 *************************************************************
-        if (0 == (149*cos((300-irang)*0.0174533))){//is the motor equal to zero
+        if (0 == (149*cos((30-irang)*0.0174533))){//is the motor equal to zero
           m1;//set it to zero
         }
         else
         {
-          m1 = 149*cos((300-irang)*0.0174533)+106;//set it to 5v to 12v
+          m1 = 149*cos((30-irang)*0.0174533)+106;//set it to 5v to 12v
         }//end if else
 
         //MOTOR 2 *************************************************************
-        if (0 == (149*cos((180-irang)*0.0174533))){//is the motor equal to zero
+        if (0 == (149*cos((270-irang)*0.0174533))){//is the motor equal to zero
           m2;//set it to zero
         }
         else
         {
-          m2 = 149*cos((180-irang)*0.0174533)+106;//set it to 5v to 12v
+          m2 = 149*cos((270-irang)*0.0174533)+106;//set it to 5v to 12v
         }//end if else
 
         //MOTOR 3 *************************************************************
-        if (0 == (149*cos((60-irang)*0.0174533))){//is the motor equal to zero
+        if (0 == (149*cos((150-irang)*0.0174533))){//is the motor equal to zero
           m3;//set it to zero
         }
         else
         {
-          m3 = 149*cos((60-irang)*0.0174533)+106;//set it to 5v to 12v
+          m3 = 149*cos((150-irang)*0.0174533)+106;//set it to 5v to 12v
         }//end if else
 
 
@@ -451,13 +451,13 @@ irang = 0;
   m3 = m3 * -1;
   }
 
+  void IR_read()
+  {
 
-
-  //IR_port = 0;
-   IR_port = PINA;      //Read the PORTA and put the values in the variable
-   IRTime = millis();
-
-
+   //IR_port = 0;
+    IR_port = PINA;      //Read the PORTA and put the values in the variable
+    IRTime = millis();
+  }
 
 
 }

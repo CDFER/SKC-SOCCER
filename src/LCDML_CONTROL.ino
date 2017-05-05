@@ -337,7 +337,8 @@ void LCDML_CONTROL_loop()
       case '4': LCDML_BUTTON_left();  break;
       case '6': LCDML_BUTTON_right(); break;
       case '*': LCDML_BUTTON_quit();  break;
-      default: break;
+      default:
+       break;
     }
   }
 }
