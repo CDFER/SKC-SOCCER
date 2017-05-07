@@ -1,13 +1,13 @@
 #include <Arduino.h>
-#include <wire.h>
+#include <Wire.h>
 #include <HTInfraredSeeker.h>
 #include <SpeedTrig.h>
 #include <AFMotor.h>
 #include <NewPing.h>
 #include <Adafruit_TCS34725.h>
-AF_DCMotor motor1(1); // create motor #2, 64KHz pwm
-AF_DCMotor motor2(2); // create motor #2, 64KHz pwm
-AF_DCMotor motor3(3); // create motor #2, 64KHz pwm
+AF_DCMotor motor1(1, MOTOR12_64KHZ); // create motor #2, 64KHz pwm
+AF_DCMotor motor2(2, MOTOR12_64KHZ); // create motor #2, 64KHz pwm
+AF_DCMotor motor3(3, MOTOR34_64KHZ); // create motor #2, 64KHz pwm
 //------------------------------------------------------------------------------
 #define IR_INT_PIN 2
 #define SOCCER_BALL_TIMEOUT 500 //0.5 second
@@ -16,6 +16,7 @@ volatile char IR_port;    //Create a variable to store the data read from PORT
 unsigned long IRTime = -SOCCER_BALL_TIMEOUT;
 char prevIR_port = 0b11111111;//start with all IR off
 //------------------------------------------------------------------------------
+
 /* ===================================================================== *
  *                                                                       *
  * DISPLAY SYSTEM                                                        *
@@ -185,23 +186,6 @@ void LCDML_DISP_loop_end(LCDML_FUNC_p2)
 }
 //________________________________________________________________________________
 void LCDML_DISP_setup(LCDML_FUNC_Attacker){
-  pinMode(IR_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
-    DDRA = 0b00000000;    //All pins in PORTA are inputs  http://archive.monome.org/community/uploads/2012/02/Mega%20Port%20Diagram.png (154kB)
-    Serial.begin(9600);
-
-   //set port A to pull up all pins
-    pinMode(22, INPUT_PULLUP);
-    pinMode(23, INPUT_PULLUP);
-    pinMode(24, INPUT_PULLUP);
-    pinMode(25, INPUT_PULLUP);
-    pinMode(26, INPUT_PULLUP);
-    pinMode(27, INPUT_PULLUP);
-    pinMode(28, INPUT_PULLUP);
-    pinMode(29, INPUT_PULLUP);
-
-
-
 
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
@@ -390,66 +374,43 @@ switch (ball) {
 
 
   }
-
-
-
-
-
-
 irang = 0;
+m1 = 255*cos((30-irang)*0.0174533);
+m2 = 255*cos((270-irang)*0.0174533);
+m3 = 255*cos((150-irang)*0.0174533);
 
 
-        //MOTOR 1 *************************************************************
-        if (0 == (149*cos((300-irang)*0.0174533))){//is the motor equal to zero
-          m1;//set it to zero
+
+
+
+
+
+
+
+        motor1.run(FORWARD);
+        motor2.run(FORWARD);
+        motor3.run(FORWARD);
+        if(m1 <0){
+
+        motor1.run(BACKWARD);
+        m1 = m1 * -1;
         }
-        else
-        {
-          m1 = 149*cos((300-irang)*0.0174533)+106;//set it to 5v to 12v
-        }//end if else
 
-        //MOTOR 2 *************************************************************
-        if (0 == (149*cos((180-irang)*0.0174533))){//is the motor equal to zero
-          m2;//set it to zero
+        if(m2 <0){
+        motor2.run(BACKWARD);
+        m2 = m2 * -1;
         }
-        else
-        {
-          m2 = 149*cos((180-irang)*0.0174533)+106;//set it to 5v to 12v
-        }//end if else
 
-        //MOTOR 3 *************************************************************
-        if (0 == (149*cos((60-irang)*0.0174533))){//is the motor equal to zero
-          m3;//set it to zero
+        if(m3 <0){
+        motor3.run(BACKWARD);
+        m3 = m3 * -1;
         }
-        else
-        {
-          m3 = 149*cos((60-irang)*0.0174533)+106;//set it to 5v to 12v
-        }//end if else
+
+        motor1.setSpeed(m1);
+        motor2.setSpeed(m2);
+        motor3.setSpeed(m3);
 
 
-
-  motor1.setSpeed(m1);
-  motor2.setSpeed(m2);
-  motor3.setSpeed(m3);
-
-  motor1.run(FORWARD);
-  motor2.run(FORWARD);
-  motor3.run(FORWARD);
-
-  if(m1 <0){
-  motor1.run(BACKWARD);
-  m1 = m1 * -1;
-  }
-
-  if(m2 <0){
-  motor2.run(BACKWARD);
-  m2 = m2 * -1;
-  }
-
-  if(m3 <0){
-  motor3.run(BACKWARD);
-  m3 = m3 * -1;
-  }
 
 
 
@@ -464,6 +425,23 @@ irang = 0;
 
 
 void LCDML_DISP_loop_end(LCDML_FUNC_Attacker){
+
+
+}
+
+
+
+
+void LCDML_DISP_setup(LCDML_FUNC_Values){
+
+
+
+}
+void LCDML_DISP_loop(LCDML_FUNC_Values){
+
+
+}
+void LCDML_DISP_loop_end(LCDML_FUNC_Values){
 
 
 }

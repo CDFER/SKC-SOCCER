@@ -18,6 +18,7 @@
   #define _LCDML_DISP_cfg_scrollbar                  1      // enable a scrollbar
   #define _LCDML_DISP_cfg_cursor                     0x7E   // cursor Symbol
   #define _LCDML_FUNC_Attacker
+  #define _LCDML_FUNC_Values
 // *********************************************************************
 // LCDML TYPE SELECT
 // *********************************************************************
@@ -64,7 +65,7 @@
   LCDML_DISP_add      (5  , _LCDML_G1  , LCDML_root_1_2  , 1  , "START"              , LCDML_FUNC);
   LCDML_DISP_add      (6  , _LCDML_G1  , LCDML_root_1_2  , 2  , "Settings"           , LCDML_FUNC);
   LCDML_DISP_add      (7  , _LCDML_G1  , LCDML_root      , 2  , "Settings"           , LCDML_FUNC);
-  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_2    , 1  , "Change values"      , LCDML_FUNC);
+  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_2    , 1  , "Change values"      , LCDML_FUNC_Values);
 
   LCDML_DISP_createMenu(_LCDML_DISP_cnt);
 
