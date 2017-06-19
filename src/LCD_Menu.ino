@@ -100,8 +100,8 @@
     lcd.setCursor(0, 0);
     lcd.print(F(" WALL-E  SOCCER "));
     lcd.setCursor(0, 1);
-    lcd.print(F("   SKC 2016    "));
-    delay(1000);
+    lcd.print(F("   SKC 2017    "));
+    delay(4000);
 
     lcd.home ();                   // go home
     // set special chars for scrollbar
