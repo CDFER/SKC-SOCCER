@@ -31,7 +31,11 @@ void tcaselect(uint8_t i) {
 }
 
 
-
+int ang;
+int ircon; // what side the ball is on or if there is a problime
+float m1; // motor 1 speed
+float m2; // motor 2 Speed
+float m3; // motor 3 Speed
 
 
 AF_DCMotor motor1(1, MOTOR12_64KHZ); // create motor #2, 64KHz pwm
@@ -60,6 +64,47 @@ void IR_read(){
 
 
 //_______________________________________________________________________________
+void motor(){
+
+
+  m1 = 255*cos((30-ang)*0.0174533);
+  m2 = 255*cos((270-ang)*0.0174533);
+  m3 = 255*cos((150-ang)*0.0174533);
+
+
+
+
+
+
+
+
+
+          motor1.run(FORWARD);
+          motor2.run(FORWARD);
+          motor3.run(FORWARD);
+          if(m1 <0){
+
+          motor1.run(BACKWARD);
+          m1 = m1 * -1;
+          }
+
+          if(m2 <0){
+          motor2.run(BACKWARD);
+          m2 = m2 * -1;
+          }
+
+          if(m3 <0){
+          motor3.run(BACKWARD);
+          m3 = m3 * -1;
+          }
+
+          motor1.setSpeed(m1);
+          motor2.setSpeed(m2);
+          motor3.setSpeed(m3);
+
+
+}
+
 /* ===================================================================== *
  *                                                                       *
  * DISPLAY SYSTEM                                                        *
@@ -260,11 +305,7 @@ void LCDML_DISP_loop(LCDML_FUNC_Attacker){
 
 int ball; // if the ball is in capture zone 1 = possitive 2 = negitive
 int irang; // the angle the ball is at
-int ang;
-int ircon; // what side the ball is on or if there is a problime
-float m1; // motor 1 speed
-float m2; // motor 2 Speed
-float m3; // motor 3 Speed
+
 int red1;
 int red2;
 int green1;
@@ -272,7 +313,7 @@ int green2;
 int blue1;
 int blue2;
 int e = 1;
-
+int Loop = 1;
 
 int lolgred; // light green side on mat red from rgb
 int lolggreen; // light green side on mat green from rgb
@@ -302,18 +343,18 @@ int hbblue;  // black side on mat red from rgb
 
 
 
-  lolggreen = 3000;
-  hlggreen = 3200;
+  lolggreen = 950;
+  hlggreen = 2000;
 
 
-  lomggreen = 2000;
-  hmggreen = 2500;
+  lomggreen = 400;
+  hmggreen = 900;
 
-  lodggreen = 670;
-  hdggreen = 770;
+  lodggreen = 155;
+  hdggreen = 300;
 
   lobgreen = 10;
-  hbgreen = 400;
+  hbgreen = 150;
 
 //ir_________________________________________________________________________
 //delay(1000);
@@ -337,21 +378,7 @@ if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
 }//END if()
 
   //________________________________________________________________________________
-  switch (ircon) {
-      case 1:
-        irang - 10;
-        break;
-      case 2:
-        irang + 10;
-        break;
-      case 3:
-        irang
-        ;
-        break;
-      case 4:
-        lcd.print("error");
-        break;
-    }
+
 
 //---------------------------------------------------------------------------
 //seek color
@@ -493,44 +520,25 @@ lcd.print("error");
 
 }
 lcd.print(irang);
-
+switch (ircon) {
+    case 1:
+      irang - 10;
+      break;
+    case 2:
+      irang + 10;
+      break;
+    case 3:
+      irang
+      ;
+      break;
+    case 4:
+      lcd.print("error");
+      break;
+  }
 }
 
 
-m1 = 255*cos((30-ang)*0.0174533);
-m2 = 255*cos((270-ang)*0.0174533);
-m3 = 255*cos((150-ang)*0.0174533);
 
-
-
-
-
-
-
-
-
-        motor1.run(FORWARD);
-        motor2.run(FORWARD);
-        motor3.run(FORWARD);
-        if(m1 <0){
-
-        motor1.run(BACKWARD);
-        m1 = m1 * -1;
-        }
-
-        if(m2 <0){
-        motor2.run(BACKWARD);
-        m2 = m2 * -1;
-        }
-
-        if(m3 <0){
-        motor3.run(BACKWARD);
-        m3 = m3 * -1;
-        }
-
-        motor1.setSpeed(m1);
-        motor2.setSpeed(m2);
-        motor3.setSpeed(m3);
 
 
 
@@ -628,16 +636,25 @@ lcd.print(F("goal"));
   }else{
 
     lcd.print(F("error"));
-  Serial.print(green);
-  Serial.print(green2);
+
+
 
   }
 delay(100);
 
-Serial.print(green);
+Serial.print(green1);
 Serial.print("     ");
 Serial.print("     ");
-Serial.print(green2);
+
+
+}
+
+while (Loop = 0) {
+  motor();
+}
+
+
+
 
 }
 
@@ -646,10 +663,7 @@ Serial.print(green2);
 
 
 
-}
 
-
-tcaselect(4);
 
 
 sensors_event_t event;

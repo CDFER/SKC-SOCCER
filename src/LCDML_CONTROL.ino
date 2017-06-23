@@ -102,7 +102,7 @@ void LCDML_CONTROL_loop()
 // *********************************************************************
 #elif(_LCDML_CONTROL_cfg == 1)
 // settings
-  #define _LCDML_CONTROL_analog_pin              8
+  #define _LCDML_CONTROL_analog_pin              11
   // when you did not use a button set the value to zero
   #define _LCDML_CONTROL_analog_enter_min        650     // Button Enter
   #define _LCDML_CONTROL_analog_enter_max        750
