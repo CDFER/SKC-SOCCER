@@ -17,7 +17,8 @@
   #define _LCDML_DISP_cfg_button_press_time          200    // button press time in ms
   #define _LCDML_DISP_cfg_scrollbar                  1      // enable a scrollbar
   #define _LCDML_DISP_cfg_cursor                     0x7E   // cursor Symbol
-
+  #define _LCDML_FUNC_Attacker
+  #define _LCDML_FUNC_Values
 // *********************************************************************
 // LCDML TYPE SELECT
 // *********************************************************************
@@ -58,13 +59,13 @@
   LCDML_DISP_init(_LCDML_DISP_cnt);
   LCDML_DISP_add      (0  , _LCDML_G1  , LCDML_root      , 1  , "Programs"           , LCDML_FUNC);
   LCDML_DISP_add      (1  , _LCDML_G1  , LCDML_root_1    , 1  , "Attacker"           , LCDML_FUNC);
-  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root_1_1  , 1  , "START"              , LCDML_FUNC);
+  LCDML_DISP_add      (2  , _LCDML_G1  , LCDML_root_1_1  , 1  , "START"              , LCDML_FUNC_Attacker);
   LCDML_DISP_add      (3  , _LCDML_G1  , LCDML_root_1_1  , 2  , "Settings"           , LCDML_FUNC);
   LCDML_DISP_add      (4  , _LCDML_G1  , LCDML_root_1    , 2  , "Defender"           , LCDML_FUNC);
   LCDML_DISP_add      (5  , _LCDML_G1  , LCDML_root_1_2  , 1  , "START"              , LCDML_FUNC);
   LCDML_DISP_add      (6  , _LCDML_G1  , LCDML_root_1_2  , 2  , "Settings"           , LCDML_FUNC);
   LCDML_DISP_add      (7  , _LCDML_G1  , LCDML_root      , 2  , "Settings"           , LCDML_FUNC);
-  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_2    , 1  , "Change values"      , LCDML_FUNC);
+  LCDML_DISP_add      (8  , _LCDML_G1  , LCDML_root_2    , 1  , "Change values"      , LCDML_FUNC_Values);
 
   LCDML_DISP_createMenu(_LCDML_DISP_cnt);
 
@@ -99,8 +100,8 @@
     lcd.setCursor(0, 0);
     lcd.print(F(" WALL-E  SOCCER "));
     lcd.setCursor(0, 1);
-    lcd.print(F("   SKC 2016    "));
-    delay(1000);
+    lcd.print(F("   SKC 2017    "));
+    delay(4000);
 
     lcd.home ();                   // go home
     // set special chars for scrollbar
@@ -128,5 +129,5 @@ void loop() {
 
     //Run menu
     LCDML_run(_LCDML_priority);
-    
+
   }

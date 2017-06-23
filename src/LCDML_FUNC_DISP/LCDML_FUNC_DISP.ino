@@ -1,4 +1,4 @@
-#include <Arduino.h>
+
 #include <HTInfraredSeeker.h>
 #include <SpeedTrig.h>
 #include <AFMotor.h>
@@ -31,11 +31,7 @@ void tcaselect(uint8_t i) {
 }
 
 
-int ang;
-int ircon; // what side the ball is on or if there is a problime
-float m1; // motor 1 speed
-float m2; // motor 2 Speed
-float m3; // motor 3 Speed
+
 
 
 AF_DCMotor motor1(1, MOTOR12_64KHZ); // create motor #2, 64KHz pwm
@@ -43,10 +39,9 @@ AF_DCMotor motor2(2, MOTOR12_64KHZ); // create motor #2, 64KHz pwm
 AF_DCMotor motor3(3, MOTOR34_64KHZ); // create motor #2, 64KHz pwm
 AF_DCMotor drible(4); // create motor #2, 64KHz pwm
 //------------------------------------------------------------------------------
-
 #define IR_INT_PIN 2
 #define SOCCER_BALL_TIMEOUT 500 //0.5 second
-
+#define IR_read
 volatile char IR_port;    //Create a variable to store the data read from PORT
 unsigned long IRTime = -SOCCER_BALL_TIMEOUT;
 char prevIR_port = 0b11111111;//start with all IR off
@@ -55,56 +50,9 @@ char prevIR_port = 0b11111111;//start with all IR off
 
 
 
-void IR_read(){
-
-  //IR_port = 0;
-   IR_port = PINA;      //Read the PORTA and put the values in the variable
-   IRTime = millis();
-}
 
 
 //_______________________________________________________________________________
-void motor(){
-
-
-  m1 = 255*cos((30-ang)*0.0174533);
-  m2 = 255*cos((270-ang)*0.0174533);
-  m3 = 255*cos((150-ang)*0.0174533);
-
-
-
-
-
-
-
-
-
-          motor1.run(FORWARD);
-          motor2.run(FORWARD);
-          motor3.run(FORWARD);
-          if(m1 <0){
-
-          motor1.run(BACKWARD);
-          m1 = m1 * -1;
-          }
-
-          if(m2 <0){
-          motor2.run(BACKWARD);
-          m2 = m2 * -1;
-          }
-
-          if(m3 <0){
-          motor3.run(BACKWARD);
-          m3 = m3 * -1;
-          }
-
-          motor1.setSpeed(m1);
-          motor2.setSpeed(m2);
-          motor3.setSpeed(m3);
-
-
-}
-
 /* ===================================================================== *
  *                                                                       *
  * DISPLAY SYSTEM                                                        *
@@ -275,24 +223,25 @@ void LCDML_DISP_loop_end(LCDML_FUNC_p2)
 //________________________________________________________________________________
 void LCDML_DISP_setup(LCDML_FUNC_Attacker){
   pinMode(IR_INT_PIN, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
+    DDRA = 0b00000000;    //All pins in PORTA are inputs  http://archive.monome.org/community/uploads/2012/02/Mega%20Port%20Diagram.png (154kB)
+    Serial.begin(9600);
+    Serial.println("In a land far, far away. There lived a small boy named Chris and he died in a big whole. ");
 
- DDRA = 0b00000000;    //All pins in PORTA are inputs  http://archive.monome.org/community/uploads/2012/02/Mega%20Port%20Diagram.png (154kB)
- Serial.begin(9600);
- Serial.println("In a land far, far away. There lived a small boy named Chris and he died in a big whole. ");
 
+   //set port A to pull up all pins
+    pinMode(22, INPUT_PULLUP);
+    pinMode(23, INPUT_PULLUP);
+    pinMode(24, INPUT_PULLUP);
+    pinMode(25, INPUT_PULLUP);
+    pinMode(26, INPUT_PULLUP);
+    pinMode(27, INPUT_PULLUP);
+    pinMode(28, INPUT_PULLUP);
+    pinMode(29, INPUT_PULLUP);
 
-//set port A to pull up all pins
- pinMode(22, INPUT_PULLUP);
- pinMode(23, INPUT_PULLUP);
- pinMode(24, INPUT_PULLUP);
- pinMode(25, INPUT_PULLUP);
- pinMode(26, INPUT_PULLUP);
- pinMode(27, INPUT_PULLUP);
- pinMode(28, INPUT_PULLUP);
- pinMode(29, INPUT_PULLUP);
+   //set LED pin to output (pin 13)
+    pinMode(13, OUTPUT);
 
-//set LED pin to output (pin 13)
- pinMode(13, OUTPUT);
 }
 void LCDML_DISP_loop(LCDML_FUNC_Attacker){
 //
@@ -305,15 +254,19 @@ void LCDML_DISP_loop(LCDML_FUNC_Attacker){
 
 int ball; // if the ball is in capture zone 1 = possitive 2 = negitive
 int irang; // the angle the ball is at
-
+int ang;
+int ircon; // what side the ball is on or if there is a problime
+float m1; // motor 1 speed
+float m2; // motor 2 Speed
+float m3; // motor 3 Speed
 int red1;
 int red2;
 int green1;
 int green2;
 int blue1;
 int blue2;
-int e = 1;
-int Loop = 1;
+int e = 0;
+
 
 int lolgred; // light green side on mat red from rgb
 int lolggreen; // light green side on mat green from rgb
@@ -343,18 +296,18 @@ int hbblue;  // black side on mat red from rgb
 
 
 
-  lolggreen = 950;
-  hlggreen = 2000;
+  lolggreen = 6000;
+  hlggreen = 6300;
 
 
-  lomggreen = 400;
-  hmggreen = 900;
+  lomggreen = 4000;
+  hmggreen = 5000;
 
-  lodggreen = 155;
-  hdggreen = 300;
+  lodggreen = 1400;
+  hdggreen = 1600;
 
-  lobgreen = 10;
-  hbgreen = 150;
+  lobgreen = 900;
+  hbgreen = 1100;
 
 //ir_________________________________________________________________________
 //delay(1000);
@@ -378,7 +331,21 @@ if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
 }//END if()
 
   //________________________________________________________________________________
-
+  switch (ircon) {
+      case 1:
+        irang - 10;
+        break;
+      case 2:
+        irang + 10;
+        break;
+      case 3:
+        irang
+        ;
+        break;
+      case 4:
+        lcd.print("error");
+        break;
+    }
 
 //---------------------------------------------------------------------------
 //seek color
@@ -389,18 +356,18 @@ if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
 
 
 //________________________________________________________________________________
-ball = 2;
 
 
-while (ball == 1) {
+//IR_port = 0;
+IR_port = PINA;      //Read the PORTA and put the values in the variable
+IRTime = millis();
 
 
 
+switch (ball) {
 
-switch (PINA) {
 
 
-attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
 
 
     case 0b0001111:
@@ -510,60 +477,57 @@ attachInterrupt(digitalPinToInterrupt(IR_INT_PIN),IR_read,FALLING);
       ball = 1;
       break;
     default:
-lcd.print("error");
      ircon = 4; // ir config error
       break;
 
 
-
-
-
-}
-lcd.print(irang);
-switch (ircon) {
-    case 1:
-      irang - 10;
-      break;
-    case 2:
-      irang + 10;
-      break;
-    case 3:
-      irang
-      ;
-      break;
-    case 4:
-      lcd.print("error");
-      break;
   }
-}
+irang = 0;
+m1 = 255*cos((30-ang)*0.0174533);
+m2 = 255*cos((270-ang)*0.0174533);
+m3 = 255*cos((150-ang)*0.0174533);
 
 
 
 
 
 
-        //delay(1000);
-          //Serial.println(IR_port,BIN);
-          //Serial.println(IRTime);
-
-         //checking if we have seen the soccer ball in the last second
-          if(millis() < (IRTime+SOCCER_BALL_TIMEOUT)){//can see ball now
-
-           digitalWrite(13, HIGH);//LED on
-
-           if(IR_port != prevIR_port){//only print when value has changed
-              Serial.println(~IR_port,BIN);
-              prevIR_port = IR_port;
-              Serial.println(IRTime);
-            }
-
-          }else{//Hvaen't seen ball for SOCCER_BALL_TIMEOUT
-             digitalWrite(13, LOW);//LED off
-             prevIR_port = 0b11111111;//all IR sensors are off
-          }//END if()
 
 
 
+        motor1.run(FORWARD);
+        motor2.run(FORWARD);
+        motor3.run(FORWARD);
+        if(m1 <0){
+
+        motor1.run(BACKWARD);
+        m1 = m1 * -1;
+        }
+
+        if(m2 <0){
+        motor2.run(BACKWARD);
+        m2 = m2 * -1;
+        }
+
+        if(m3 <0){
+        motor3.run(BACKWARD);
+        m3 = m3 * -1;
+        }
+
+        motor1.setSpeed(m1);
+        motor2.setSpeed(m2);
+        motor3.setSpeed(m3);
+
+
+
+
+
+  //IR_port = 0;
+   IR_port = PINA;      //Read the PORTA and put the values in the variable
+   IRTime = millis();
+
+
+ball = 2;
 ircon = 3;
 
 
@@ -583,13 +547,40 @@ drible.run(FORWARD);
 
 while (ball == 2){
 
+  m1 = 255*cos((30-ang)*0.0174533);
+  m2 = 255*cos((270-ang)*0.0174533);
+  m3 = 255*cos((150-ang)*0.0174533);
+
+  motor1.run(FORWARD);
+  motor2.run(FORWARD);
+  motor3.run(FORWARD);
+  if(m1 <0){
+
+  motor1.run(BACKWARD);
+  m1 = m1 * -1;
+  }
+
+  if(m2 <0){
+  motor2.run(BACKWARD);
+  m2 = m2 * -1;
+  }
+
+  if(m3 <0){
+  motor3.run(BACKWARD);
+  m3 = m3 * -1;
+  }
+
+  motor1.setSpeed(m1);
+  motor2.setSpeed(m2);
+  motor3.setSpeed(m3);
+
 
 
 
 
    tcs.getRawData(&red, &green, &blue, &clear);
 
-green1 = green;
+green1 = clear;
 
 
 
@@ -612,7 +603,7 @@ green1 = green;
 
   else if (green1 >lodggreen && green1 <hdggreen)
      {
-  lcd.print(F("1=dg"));
+  lcd.print(F("1=dg 2=dg"));
   ang = 0;
   }
 
@@ -621,7 +612,7 @@ green1 = green;
 
   else if (green1 >lolggreen && green1 <hlggreen)
      {
-  lcd.print(F("1=lg"));
+  lcd.print(F("1=lg 2=lg"));
   ang = 90;
 
   }
@@ -636,25 +627,16 @@ lcd.print(F("goal"));
   }else{
 
     lcd.print(F("error"));
-
-
+  Serial.print(green);
+  Serial.print(green2);
 
   }
 delay(100);
 
-Serial.print(green1);
+Serial.print(green);
 Serial.print("     ");
 Serial.print("     ");
-
-
-}
-
-while (Loop = 0) {
-  motor();
-}
-
-
-
+Serial.print(green2);
 
 }
 
@@ -663,7 +645,10 @@ while (Loop = 0) {
 
 
 
+}
 
+
+tcaselect(4);
 
 
 sensors_event_t event;

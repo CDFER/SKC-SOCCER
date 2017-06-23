@@ -102,20 +102,23 @@ void LCDML_CONTROL_loop()
 // *********************************************************************
 #elif(_LCDML_CONTROL_cfg == 1)
 // settings
-  #define _LCDML_CONTROL_analog_pin              0
+  #define _LCDML_CONTROL_analog_pin              11
   // when you did not use a button set the value to zero
-  #define _LCDML_CONTROL_analog_enter_min        730     // Button Enter
+
+
+  #define _LCDML_CONTROL_analog_enter_min        650     // Button Enter
   #define _LCDML_CONTROL_analog_enter_max        750
-  #define _LCDML_CONTROL_analog_up_min           320     // Button Up
-  #define _LCDML_CONTROL_analog_up_max           340
-  #define _LCDML_CONTROL_analog_down_min         135     // Button Down
-  #define _LCDML_CONTROL_analog_down_max         155
-  #define _LCDML_CONTROL_analog_back_min         500     // Button Back
-  #define _LCDML_CONTROL_analog_back_max         600
-  #define _LCDML_CONTROL_analog_left_min         600     // Button Left
-  #define _LCDML_CONTROL_analog_left_max         520
+  #define _LCDML_CONTROL_analog_up_min           150     // Button Up
+  #define _LCDML_CONTROL_analog_up_max           350
+  #define _LCDML_CONTROL_analog_down_min         100     // Button Down
+  #define _LCDML_CONTROL_analog_down_max         200
+  #define _LCDML_CONTROL_analog_back_min         1000     // Button Back
+  #define _LCDML_CONTROL_analog_back_max         1000
+  #define _LCDML_CONTROL_analog_left_min         400     // Button Left
+  #define _LCDML_CONTROL_analog_left_max         500
   #define _LCDML_CONTROL_analog_right_min        0     // Button Right
-  #define _LCDML_CONTROL_analog_right_max        20
+  #define _LCDML_CONTROL_analog_right_max        100
+
 // *********************************************************************
 // setup
 void LCDML_CONTROL_setup()
@@ -337,7 +340,11 @@ void LCDML_CONTROL_loop()
       case '4': LCDML_BUTTON_left();  break;
       case '6': LCDML_BUTTON_right(); break;
       case '*': LCDML_BUTTON_quit();  break;
+
+      default:
+       break;
       default: break;
+
     }
   }
 }
