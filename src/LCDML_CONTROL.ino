@@ -104,6 +104,8 @@ void LCDML_CONTROL_loop()
 // settings
   #define _LCDML_CONTROL_analog_pin              11
   // when you did not use a button set the value to zero
+
+
   #define _LCDML_CONTROL_analog_enter_min        650     // Button Enter
   #define _LCDML_CONTROL_analog_enter_max        750
   #define _LCDML_CONTROL_analog_up_min           150     // Button Up
@@ -116,6 +118,7 @@ void LCDML_CONTROL_loop()
   #define _LCDML_CONTROL_analog_left_max         500
   #define _LCDML_CONTROL_analog_right_min        0     // Button Right
   #define _LCDML_CONTROL_analog_right_max        100
+
 // *********************************************************************
 // setup
 void LCDML_CONTROL_setup()
@@ -337,8 +340,11 @@ void LCDML_CONTROL_loop()
       case '4': LCDML_BUTTON_left();  break;
       case '6': LCDML_BUTTON_right(); break;
       case '*': LCDML_BUTTON_quit();  break;
+
       default:
        break;
+      default: break;
+
     }
   }
 }
